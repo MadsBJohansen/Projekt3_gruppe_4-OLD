@@ -27,7 +27,11 @@ public class CarRepo {
                     FROM car_status
                     WHERE status_code = ?
                     """;
-        jdbcTemplate.update(sql,carId, status);
+        int rowsAffected = jdbcTemplate.update(sql, carId, status.name());
+
+        if (rowsAffected != 1) {
+            throw new IllegalStateException("Car status could not be registered");
+        }
 
     }
 
