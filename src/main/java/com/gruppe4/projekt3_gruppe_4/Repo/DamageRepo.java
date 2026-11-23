@@ -25,5 +25,6 @@ public class DamageRepo {
                 damage.getDamageReportId(),
                 damage.getDescription(),
                 damage.getRepairCost());
+
     }
 }
