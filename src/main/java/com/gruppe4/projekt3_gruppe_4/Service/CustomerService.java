@@ -46,7 +46,7 @@ public class CustomerService {
             throw new IllegalArgumentException("Invalid email");
         }
         if (customerRepo.existsByEmail(customer.getEmail())) {
-            throw new IllegalArgumentException("Email already exists");
+            throw new IllegalArgumentException("Email already exist");
         }
     }
 
