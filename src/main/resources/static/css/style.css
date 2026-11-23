@@ -171,3 +171,25 @@ button:hover {
     font-size: 13px;
     color: #556b82;
 }
+/* Create car: group related fields in two cards. */
+.create-car-page { max-width: 900px; margin: 0 auto; padding: 24px; }
+.create-car-page h1 { margin: 0 0 8px; font-size: 26px; }
+.create-car-page .card { max-width: none; padding: 24px; margin-bottom: 20px; }
+.create-car-page h2 { margin: 0 0 18px; font-size: 18px; }
+.create-car-page .car-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 24px; }
+.create-car-page .car-field { display: flex; flex-direction: column; min-width: 0; }
+.create-car-page input, .create-car-page select { margin-bottom: 0; }
+.create-car-page .field-help { margin: 5px 0 0; font-size: 12px; color: #556b82; }
+.create-car-page .field-error { margin: 5px 0 0; font-size: 13px; color: #a64020; }
+.create-car-page .invalid { border-color: #a64020; }
+.create-car-page .car-actions { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.create-car-page .car-actions a { color: #2f6bc4; }
+.create-car-page button { margin: 0; padding: 0 24px; }
+.create-car-page button:hover { margin: 0; font-size: 15px; color: white; background: #24569e; }
+.create-car-page button:disabled { opacity: .6; cursor: not-allowed; }
+
+/* Stack fields on small screens. */
+@media (max-width: 600px) {
+    .create-car-page { padding: 16px; }
+    .create-car-page .car-fields { grid-template-columns: 1fr; }
+}

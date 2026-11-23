@@ -65,6 +65,7 @@ class CarModelRepoTest {
                 .findFirst()
                 .orElseThrow();
 
+        assertEquals("RepositoryTestBrand", model.getBrandName());
         assertEquals("RepositoryTestModel", model.getName());
         assertEquals(2024, model.getModelYear());
 

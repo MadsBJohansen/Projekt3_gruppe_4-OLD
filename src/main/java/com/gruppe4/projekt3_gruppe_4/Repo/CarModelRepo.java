@@ -16,16 +16,19 @@ public class CarModelRepo {
 
     public List<CarModel> findAllCarModels() {
         String sql = """
-            SELECT car_model_id, name, model_year, car_brand_id
-            FROM car_model
-            ORDER BY name, model_year
+            SELECT cm.car_model_id, cm.name, cm.model_year, cm.car_brand_id,
+                   cb.name AS brand_name
+            FROM car_model cm
+            JOIN car_brand cb ON cm.car_brand_id = cb.car_brand_id
+            ORDER BY cb.name, cm.name, cm.model_year
             """;
 
         return jdbcTemplate.query(sql, (rs, rowNum) -> new CarModel(
                 rs.getInt("car_model_id"),
                 rs.getString("name"),
                 rs.getInt("model_year"),
-                rs.getInt("car_brand_id")
+                rs.getInt("car_brand_id"),
+                rs.getString("brand_name")
         ));
     }
 }

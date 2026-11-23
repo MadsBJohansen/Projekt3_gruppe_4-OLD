@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create car</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header class="topbar">
+    <span class="logo">LOGO</span>
+    <span class="brand">Bilabonnement</span>
+</header>
+<main class="create-car-page">
+    <h1>Create car</h1>
+    <p class="subtitle">Register a car for rental. All fields are required.</p>
+    <p class="error" role="alert" th:if="${error}" th:text="${error}"></p>
+    <p class="success" role="status" th:if="${success}" th:text="${success}"></p>
+
+    <form th:action="@{/cars/create}" th:object="${car}" method="post">
+        <!-- Keep identification fields together. -->
+        <section class="card" aria-labelledby="identification-title">
+            <h2 id="identification-title">Vehicle identification</h2>
+            <div class="car-fields">
+                <div class="car-field">
+                    <label for="vin">VIN</label>
+                    <input id="vin" type="text" th:field="*{vin}" minlength="17" maxlength="17" aria-describedby="vin-help" required>
+                    <p id="vin-help" class="field-help">17 characters.</p>
+                </div>
+                <div class="car-field">
+                    <label for="licensePlate">License plate</label>
+                    <input id="licensePlate" type="text" th:field="*{licensePlate}" maxlength="10" required>
+                </div>
+                <div class="car-field">
+                    <label for="carModelId">Car model</label>
+                    <select id="carModelId" th:field="*{carModelId}" required>
+                        <option value="0" disabled>Choose a car model</option>
+                        <option th:each="carModel : ${carModels}" th:value="${carModel.carModelId}"
+                                th:text="${carModel.brandName + ' ' + carModel.name + ' (' + carModel.modelYear + ')'}">Brand model (year)</option>
+                    </select>
+                </div>
+                <div class="car-field">
+                    <label for="trimLevel">Trim level</label>
+                    <input id="trimLevel" type="text" th:field="*{trimLevel}" maxlength="50" placeholder="e.g. Allure" required>
+                </div>
+            </div>
+        </section>
+
+        <!-- Keep operational details together. -->
+        <section class="card" aria-labelledby="details-title">
+            <h2 id="details-title">Vehicle details</h2>
+            <div class="car-fields">
+                <div class="car-field">
+                    <label for="mileage">Mileage (km)</label>
+                    <input id="mileage" type="number" th:field="*{mileage}" min="0" max="2147483647" step="1" required th:errorclass="invalid" aria-describedby="mileage-error">
+                    <p id="mileage-error" class="field-error" th:if="${#fields.hasErrors('mileage')}">Enter a valid number.</p>
+                </div>
+                <div class="car-field">
+                    <label for="currentLocationId">Current location</label>
+                    <select id="currentLocationId" th:field="*{currentLocationId}" th:errorclass="invalid" aria-describedby="location-error" required>
+                        <option value="0" disabled>Choose a location</option>
+                        <option th:each="location : ${locations}" th:value="${location.locationId}" th:text="${location.name}">Location name</option>
+                    </select>
+                    <p id="location-error" class="field-error" th:if="${#fields.hasErrors('currentLocationId')}" th:errors="*{currentLocationId}"></p>
+                </div>
+                <div class="car-field">
+                    <label for="basePrice">Base price (DKK)</label>
+                    <input id="basePrice" type="number" th:field="*{basePrice}" min="0.01" max="99999999.99" step="0.01" required th:errorclass="invalid" aria-describedby="basePrice-error">
+                    <p id="basePrice-error" class="field-error" th:if="${#fields.hasErrors('basePrice')}">Enter a valid number.</p>
+                </div>
+                <div class="car-field">
+                    <label for="co2Emission">CO2 emission (g/km)</label>
+                    <input id="co2Emission" type="number" th:field="*{co2Emission}" min="0" max="9999.9" step="0.1" required th:errorclass="invalid" aria-describedby="co2Emission-error">
+                    <p id="co2Emission-error" class="field-error" th:if="${#fields.hasErrors('co2Emission')}">Enter a valid number.</p>
+                </div>
+            </div>
+        </section>
+        <p class="error" th:if="${#lists.isEmpty(locations) or #lists.isEmpty(carModels)}">
+            A car model and a location must be available before you can create a car.
+        </p>
+        <div class="car-actions">
+            <a th:href="@{/}">Cancel</a>
+            <button type="submit" th:disabled="${#lists.isEmpty(locations) or #lists.isEmpty(carModels)}">Create car</button>
+        </div>
+    </form>
+</main>
+</body>
+</html>
